@@ -19,10 +19,16 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Movies
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string movieGenre, string searchString)
         {
-            // Create and assign a Linq query
-            var movies = from m in _context.Movie select m;
+            // Use LINQ to get movie genres.
+            IQueryable<string> genreQuery = from m in _context.Movie
+                                            orderby m.Genre
+                                            select m.Genre;
+
+            // Create and assign a Linq movies query
+            var movies = from m in _context.Movie
+                         select m;
             
             // Anything to search against?
             if(!String.IsNullOrEmpty(searchString))
@@ -30,8 +36,22 @@ namespace MvcMovie.Controllers
                 // Search against Movie Title..modified!
                 movies = movies.Where(s => s.Title.Contains(searchString));
             }
-            // 
-            return View(await movies.ToListAsync());
+
+            // Any genre to search against?
+            if (!String.IsNullOrEmpty(movieGenre))
+            {
+                movies = movies.Where(x => x.Genre == movieGenre);
+            }
+
+            var movieGenreVM = new MovieGenreViewModel();
+
+            // Project distinct genres (i.e non-repating) to the VM SelectList
+            movieGenreVM.genres = new SelectList(await genreQuery.Distinct().ToListAsync());
+
+            // Invokes the movie query when callint ToListAsync() (Deferred querying) and assigns to VM movies property
+            movieGenreVM.movies = await movies.ToListAsync();
+
+            return View(movieGenreVM);
         }
 
         // GET: Movies/Details/5
