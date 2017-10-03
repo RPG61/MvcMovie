@@ -24,18 +24,21 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.movies[0].Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.movies[0].ReleaseDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.movies[0].Genre)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.movies[0].Price)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movies[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movies[0].ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movies[0].Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movies[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movies[0].Rating)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -54,6 +57,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
