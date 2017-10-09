@@ -11,6 +11,8 @@ namespace MvcMovie.Models
         {
             using (var context = new MvcMovieContext(serviceProvider.GetRequiredService<DbContextOptions<MvcMovieContext>>()))
             {
+                var total = 0;
+                var count = 0;
                 // Look for any movies
                 if (context.Movie.Any())
                 {
@@ -52,7 +54,8 @@ namespace MvcMovie.Models
                         Price = 3.99M
                     }
                     );
-                    context.SaveChanges();
+                    count = context.SaveChanges();
+                    Console.WriteLine($"{count} Movie records added.");
                 }
             }
         }
